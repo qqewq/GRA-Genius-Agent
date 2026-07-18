@@ -1,9 +1,13 @@
-# Порог стабильности
+# Stability threshold: states with S < S_CRIT are discarded
 S_CRIT = 0.5
 
-# Веса уровней иерархии (для S)
-LAMBDA_WEIGHTS = [1.0, 0.8, 0.6, 0.4, 0.2]  # от низших к высшим
+# Hierarchical level weights (sum to 1)
+LAMBDA_WEIGHTS = [0.3, 0.3, 0.2, 0.1, 0.1]  # for levels 1..5
 
-# Параметры модели (если используется)
-MODEL_NAME = "gpt2"  # или "microsoft/DialoGPT-medium"
-MAX_CANDIDATES = 5
+# For entropy calculation (if using probability distribution)
+ENTROPY_BASE = 2  # bits
+
+# Candidate generation settings (dummy or real LLM)
+CANDIDATE_POOL_SIZE = 5
+USE_DUMMY_CANDIDATES = True  # if True, use template-based responses; else call LLM
+# LLM_MODEL_NAME = "gpt2"  # or "microsoft/DialoGPT-medium"

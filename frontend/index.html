@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,20 +10,22 @@
     <div id="app">
         <header>
             <h1>🧠 GRA Genius Agent</h1>
-            <p>ИИ-агент, выбирающий самые интересные ответы</p>
+            <p>Balancing stability &amp; entropy for creative intelligence</p>
         </header>
-        <main>
+        <div id="chat-container">
             <div id="chat-history">
-                <!-- сообщения будут добавляться сюда -->
+                <!-- Messages will be rendered here -->
             </div>
             <div id="input-area">
-                <input type="text" id="user-input" placeholder="Введите сообщение..." />
-                <button id="send-btn">Отправить</button>
+                <input type="text" id="user-input" placeholder="Type your message..." />
+                <button id="send-btn">Send</button>
             </div>
-        </main>
-        <footer>
-            <span>Баланс энтропии и негоэнтропии</span>
-        </footer>
+            <div id="metrics" style="display:none;">
+                <span>S: <span id="s-value">-</span></span>
+                <span>E: <span id="e-value">-</span></span>
+                <span>I: <span id="i-value">-</span></span>
+            </div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

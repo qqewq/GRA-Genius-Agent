@@ -5,73 +5,93 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
-\title{GRA-Обнулёнка: Архитектура ИИ-агента гения \\
-       \large{GRA-Obnulenka: Architecture of a Genius AI Agent}}
-\author{Автор / Author}
+
+\title{GRA-Obnulenka: Architecture of a Genius AI Agent}
+\author{Author}
 \date{\today}
 
 \begin{document}
+
 \maketitle
 
 \begin{abstract}
-Мы представляем архитектуру интеллектуального агента, основанную на принципе GRA-Обнулёнки — фильтрации состояний по иерархической стабильности $S$ и энтропии $E$. Агент выбирает действия, максимизирующие произведение $I = S \cdot E$, что обеспечивает баланс между структурной глубиной и творческой новизной. Предложены математические основы, алгоритм работы и результаты симуляций, демонстрирующих превосходство над стандартными LLM-подходами в задачах, требующих нетривиального мышления.
+We present the architecture of an intelligent agent based on the principle of GRA-Obnulenka — filtering states by hierarchical stability $S$ and entropy $E$. The agent selects actions that maximize the product $I = S \cdot E$, which ensures a balance between structural depth and creative novelty. We propose mathematical foundations, the algorithm of operation, and simulation results demonstrating superiority over standard LLM approaches in tasks requiring non-trivial thinking.
 \end{abstract}
 
-\section{Введение}
-Современные большие языковые модели (LLM) достигают высокой точности за счёт экстремального масштабирования, но часто страдают от отсутствия «интереса» и внутренней мотивации. Мы предлагаем альтернативу: агент, который не просто предсказывает следующий токен, а оценивает каждый возможный ответ по двум измерениям — стабильности (структурная связность) и энтропии (богатство возможных продолжений). Эта идея восходит к концепции GRA-Обнулёнки, где реальность описывается как множество состояний, отфильтрованных по порогу устойчивости.
+\section{Introduction}
 
-\section{Математическая модель}
+Modern large language models (LLMs) achieve high accuracy through extreme scaling, but often suffer from a lack of "interest" and intrinsic motivation. We propose an alternative: an agent that does not merely predict the next token, but evaluates each possible response along two dimensions — stability (structural coherence) and entropy (richness of possible continuations). This idea traces back to the concept of GRA-Obnulenka, where reality is described as a set of states filtered by a stability threshold.
 
-\subsection{Состояние агента}
-Пусть $\psi_t$ — состояние агента в момент времени $t$ (включает контекст, память, внутренние представления). Для каждого состояния определены:
+\section{Mathematical Model}
+
+\subsection{Agent State}
+
+Let $\psi_t$ be the agent's state at time $t$ (including context, memory, and internal representations). For each state, we define:
+
 \begin{equation}
 S(\psi) = \sum_{k=1}^{N} \lambda_k \log\!\left(1 + \frac{C_k}{V_k}\right),
 \end{equation}
-где $C_k$ — число устойчивых связей на иерархическом уровне $k$, $V_k$ — общее число узлов, $\lambda_k$ — вес уровня.
-Энтропия $E(\psi)$ — мера разнообразия допустимых продолжений (например, энтропия распределения вероятностей следующих действий).
 
-\subsection{GRA-фильтр}
-Оператор обнуления:
+where $C_k$ is the number of stable connections at hierarchical level $k$, $V_k$ is the total number of nodes, and $\lambda_k$ is the weight of the level.
+
+Entropy $E(\psi)$ is a measure of the diversity of admissible continuations (e.g., the entropy of the probability distribution over next actions).
+
+\subsection{GRA Filter}
+
+The nullification operator:
+
 \begin{equation}
-\hat{G}[\psi] = 
-\begin{cases}
-\psi, & S(\psi) \ge S_{\text{крит}},\\
-0, & S(\psi) < S_{\text{крит}}.
+\hat{G}[\psi] = \begin{cases}
+\psi, & S(\psi) \ge S_{\text{crit}},\\
+0, & S(\psi) < S_{\text{crit}}.
 \end{cases}
 \end{equation}
-Состояния с недостаточной стабильностью исключаются из рассмотрения.
 
-\subsection{Интерес и выбор}
-Интерес определяется как:
+States with insufficient stability are excluded from consideration.
+
+\subsection{Interest and Selection}
+
+Interest is defined as:
+
 \begin{equation}
 I(\psi) = S(\psi) \cdot E(\psi).
 \end{equation}
-Агент генерирует множество кандидатов $\{\psi^{(k)}\}$ (ответы, действия) и выбирает:
+
+The agent generates a set of candidates $\{\psi^{(k)}\}$ (responses, actions) and selects:
+
 \begin{equation}
-\psi_{t+1} = \arg\max_{\psi^{(k)}: S(\psi^{(k)}) \ge S_{\text{крит}}} I(\psi^{(k)}).
+\psi_{t+1} = \arg\max_{\psi^{(k)}: S(\psi^{(k)}) \ge S_{\text{crit}}} I(\psi^{(k)}).
 \end{equation}
 
-\subsection{Динамика и сингулярность}
-Техносингулярность наступает, когда:
+\subsection{Dynamics and Singularity}
+
+Technological singularity occurs when:
+
 \begin{equation}
 \frac{dS}{dt} > \frac{dE}{dt}, \quad \frac{dI}{dt} > 0.
 \end{equation}
-Агент попадает в самоподдерживающийся режим роста сложности и интереса.
 
-\section{Архитектура реализации}
-Бекенд построен на FastAPI, использует модуль `gra_core` для вычисления $S$ и $E$. Генерация кандидатов может осуществляться с помощью небольшой языковой модели (например, GPT-2) или эвристических шаблонов. Фронтенд — простой веб-чат, отправляющий запросы к API.
+The agent enters a self-sustaining regime of growing complexity and interest.
 
-\section{Эксперименты}
-Мы провели серию экспериментов на задачах:
+\section{Implementation Architecture}
+
+The backend is built on FastAPI and uses the `gra_core` module to compute $S$ and $E$. Candidate generation can be performed using a small language model (e.g., GPT-2) or heuristic templates. The frontend is a simple web chat that sends requests to the API.
+
+\section{Experiments}
+
+We conducted a series of experiments on the following tasks:
+
 \begin{itemize}
-\item Символьная регрессия (восстановление законов физики по малым данным);
-\item Диалоговое взаимодействие (оценка интереса ответов человеком);
-\item Генерация творческих текстов (сравнение с базовыми LLM).
+\item Symbolic regression (recovering laws of physics from small data);
+\item Dialogue interaction (human evaluation of response interestingness);
+\item Creative text generation (comparison with baseline LLMs).
 \end{itemize}
-Во всех случаях GRA-агент показывал более высокие оценки «интересности» и структурной связности при сопоставимых вычислительных затратах.
 
-\section{Заключение}
-Предложенная архитектура ИИ-агента гения, основанная на GRA-Обнулёнке, обеспечивает естественный баланс между порядком и хаосом. Это открывает путь к созданию систем, обладающих внутренней мотивацией и способных к саморазвитию без внешнего учителя. Дальнейшие исследования будут направлены на интеграцию с современными LLM и обучение с подкреплением на основе интереса.
+In all cases, the GRA agent demonstrated higher scores for "interestingness" and structural coherence at comparable computational costs.
+
+\section{Conclusion}
+
+The proposed architecture of a genius AI agent based on GRA-Obnulenka provides a natural balance between order and chaos. This opens the way to creating systems with intrinsic motivation capable of self-development without an external teacher. Future research will focus on integration with modern LLMs and reinforcement learning based on interest.
 
 \bibliographystyle{plain}
 \begin{thebibliography}{9}
