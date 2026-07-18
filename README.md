@@ -1,3 +1,6 @@
+https://orcid.org/my-orcid?orcid=0009-0004-1872-1153
+https://doi.org/10.5281/zenodo.21431640
+-------------
 # GRA-Genius-Agent
 
 Intelligent agent based on GRA-Obnulenka principle: balances structural stability and entropy to maximize "interest" (I = S · E).  
